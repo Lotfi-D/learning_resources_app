@@ -1,4 +1,13 @@
 <template>
+    <base-dialog v-if='inputIsInvalid' title="Invalid Input" @close="confirmError">
+        <template v-slot:default>
+            <p>Unfortunately, at least one input value is invalid.</p>
+            <p>Please check all inputs and make sure you enter at least a few characters into each input field.</p>
+        </template>
+        <template v-slot:actions>
+            <base-button @click='confirmError'>Okay</base-button>
+        </template>
+    </base-dialog>
     <base-card>
         <form @submit.prevent='addResource'>
             <div class="form-control">
@@ -27,17 +36,28 @@
         inject: ['resources'],
         data() {
             return {
-                resource :{
-                    title:'',
-                    description:'',
-                    link:''}
+                resource: {
+                    id: new Date().toISOString(),
+                    title: '',
+                    description: '',
+                    link: ''
+                },
+
+                inputIsInvalid: false,
             };
         },
-        methods:{
+        methods: {
             addResource() {
-                this.resources.push(this.resource);
-                console.log('resource page', this.resource);
-                console.log('inject', this.resources)
+                if (this.resource.title === '' || this.resource.description === '' || this.resource.link === '') {
+                    this.inputIsInvalid = true;
+                }
+                else{
+                    this.resources.push(this.resource);
+                }
+            },
+
+            confirmError(){
+                this.inputIsInvalid = false;
             }
         }
     }
