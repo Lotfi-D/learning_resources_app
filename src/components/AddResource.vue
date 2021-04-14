@@ -11,16 +11,16 @@
     <base-card>
         <form @submit.prevent='addResource'>
             <div class="form-control">
-                <label for="title">Title</label>
-                <input id="title" name="title" type="text" v-model="resource.title" />
+                <label for="title" >Title</label>
+                <input id="title" name="title" type="text" ref="title" />
             </div>
             <div class="form-control">
                 <label for="description">Description</label>
-                <textarea name="description" id="description" rows="3" v-model="resource.description"></textarea>
+                <textarea name="description" id="description" rows="3" ref="description"></textarea>
             </div>
             <div class="form-control">
                 <label for="link">Link</label>
-                <input id="link" name="link" type="url" v-model="resource.link" />
+                <input id="link" name="link" type="url" ref="link" />
             </div>
             <div>
                 <base-button type="submit">
@@ -36,24 +36,34 @@
         inject: ['resources'],
         data() {
             return {
-                resource: {
-                    id: new Date().toISOString(),
-                    title: '',
-                    description: '',
-                    link: ''
-                },
+                //resource: {
+                //    id: new Date().toISOString(),
+                //    title: '',
+                //    description: '',
+                //    link: ''
+                //},
 
                 inputIsInvalid: false,
             };
         },
         methods: {
             addResource() {
-                if (this.resource.title === '' || this.resource.description === '' || this.resource.link === '') {
+                //this.resources.push({
+                //    title:this.$refs.title.value, 
+                //    description: this.$refs.description.value,
+                //    link: this.$refs.link.value,
+                //})
+                if (this.$refs.title.value === '' || this.$refs.description.value === '' || this.$refs.link.value === '') {
                     this.inputIsInvalid = true;
                 }
                 else{
-                    this.resources.push(this.resource);
+                    this.resources.push({
+                    title:this.$refs.title.value, 
+                    description: this.$refs.description.value,
+                    link: this.$refs.link.value,
+                });
                 }
+                console.log(this.resources);
             },
 
             confirmError(){

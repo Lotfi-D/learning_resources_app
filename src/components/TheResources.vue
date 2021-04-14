@@ -46,12 +46,20 @@ export default {
     },
     provide() {
         return {
-            resources : this.storedResources
+            resources : this.storedResources,
+            deleteResource : this.deleteResource
         };
     },
     methods: {
         setSelectedTab(tab) {
             this.selectedTab = tab; 
+        },
+
+        deleteResource (resId) {
+            const resIndex = this.storedResources.findIndex(res => res.id === resId);
+            this.storedResources.splice(resIndex, 1);
+            console.log('test', resIndex);
+            console.log('test2',  this.storedResources);
         }
     }
 }
